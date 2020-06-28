@@ -43,8 +43,8 @@ def test_wildcard_and_negation_regex(mock_path):
     """
     parsed = GitIgnoreToUnisonIgnore(mock_path).parse_gitignore(StringIO(contents))
     assert len(parsed) == 2
-    assert str(parsed[0]) == "-ignore=Regex ^home/john_doe/(.+/)?[^/]*\\.py[co](/.*)?$"
-    assert str(parsed[1]) == "-ignorenot=Regex ^home/john_doe/(.+/)?test\.pyc$"
+    assert str(parsed[0]) == r"-ignore=Regex ^home/john_doe/(.+/)?[^/]*\.py[co](/.*)?$"
+    assert str(parsed[1]) == r"-ignorenot=Regex ^home/john_doe/(.+/)?test\.pyc$"
 
 
 def test_directories_regex(mock_path):
@@ -55,13 +55,13 @@ def test_directories_regex(mock_path):
     """
     parsed = GitIgnoreToUnisonIgnore(mock_path).parse_gitignore(StringIO(contents))
     assert len(parsed) == 3
-    assert str(parsed[0]) == "-ignore=Regex ^home/john_doe/(.+/)?abc$"
-    assert str(parsed[1]) == "-ignore=Regex ^home/john_doe/(.+/)?x/y(/.*)?$"
-    assert str(parsed[2]) == "-ignore=Regex ^home/john_doe/b(/.+)?/c/d(/.*)?$"
+    assert str(parsed[0]) == r"-ignore=Regex ^home/john_doe/(.+/)?abc$"
+    assert str(parsed[1]) == r"-ignore=Regex ^home/john_doe/(.+/)?x/y(/.*)?$"
+    assert str(parsed[2]) == r"-ignore=Regex ^home/john_doe/b(/.+)?/c/d(/.*)?$"
 
 
 def test_lazy_match_does_lazy_compilation():
-    match = LazyCompiledGitWildMatch("test\.py")
+    match = LazyCompiledGitWildMatch(r"test\.py")
     assert not match.is_compiled
     match.regex
     assert match.is_compiled

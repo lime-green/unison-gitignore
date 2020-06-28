@@ -1,7 +1,7 @@
 import pytest
 from unittest import mock
 
-from unison_gitignore import main
+from unison_gitignore.main import main
 
 
 @pytest.fixture
@@ -27,14 +27,14 @@ def mock_collect_gitignores():
     def generator(abs_path):
         yield f"{abs_path}/stuff/data", f"{abs_path}/stuff/data/.gitignore"
 
-    with mock.patch("unison_gitignore.__main__.collect_gitignores_from_path") as m:
+    with mock.patch("unison_gitignore.main.collect_gitignores_from_path") as m:
         m.side_effect = generator
         yield m
 
 
 @pytest.fixture
 def mock_run_cmd():
-    with mock.patch("unison_gitignore.__main__.run_cmd") as m:
+    with mock.patch("unison_gitignore.main.run_cmd") as m:
         yield m
 
 
@@ -114,7 +114,7 @@ def test_gitignore_in_root(cmd, cwd, mock_run_cmd):
     def generator(abs_path):
         yield f"{abs_path}", f"{abs_path}.gitignore"
 
-    with mock.patch("unison_gitignore.__main__.collect_gitignores_from_path") as m:
+    with mock.patch("unison_gitignore.main.collect_gitignores_from_path") as m:
         m.side_effect = generator
         main(cmd, cwd)
     mock_run_cmd.assert_called_once()
