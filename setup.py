@@ -17,6 +17,7 @@ setup(
     setup_requires=["setuptools_scm"],
     description="A unison wrapper to integrate with .gitignore",
     long_description=long_description,
+    long_description_content_type="text/markdown",
     author="Josh DM",
     url="https://github.com/lime-green/unison-gitignore",
     package_dir={"": "src"},
