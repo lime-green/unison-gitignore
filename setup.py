@@ -24,7 +24,7 @@ setup(
     packages=find_packages(where="src"),
     entry_points={
         "console_scripts": [
-            "unison_gitignore = unison_gitignore.__main__:main",
+            "unison-gitignore = unison_gitignore.__main__:main",
         ],
     },
     classifiers=[

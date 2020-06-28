@@ -3,7 +3,7 @@
 
 A gitignore-aware wrapper around [Unison](https://github.com/bcpierce00/unison)
 
-`unison_gitignore` will walk the local root and any supplied paths finding gitignore files and then call
+`unison-gitignore` will walk the local root and any supplied paths finding gitignore files and then call
 `unison` with the appropriate unison ignore patterns
 
 ## Usage
@@ -12,8 +12,9 @@ First install it:
 pip install unison-gitignore
 ```
 
+Then use:
 ```bash
-unison_gitignore /home/john_doe/local_root ssh://remote_root/ -path data
+unison-gitignore /home/john_doe/local_root ssh://remote_root/ -path data
 ```
 It accepts the exact same arguments as `unison`
 
