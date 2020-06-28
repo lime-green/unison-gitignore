@@ -20,8 +20,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements_dev.txt
     - name: Check auto-formatted
-      - run: |
-          black --check src tests
+      run: |
+        black --check src tests
     - name: Lint with flake8
       run: |
         # Black uses max length of 88
