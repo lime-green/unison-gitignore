@@ -97,7 +97,12 @@ class UnisonPathIgnore:
         return f"^{self.anchor_path}{regex}"
 
     def __repr__(self):
-        return f"<{self.__class__.__name__} anchor_path={self.anchor_path} raw_regex={self.raw_regex} include={self.include}>"
+        return (
+            f"<{self.__class__.__name__}"
+            f" anchor_path={self.anchor_path}"
+            f" raw_regex={self.raw_regex}"
+            f" include={self.include}>"
+        )
 
     def __str__(self):
         s = "-ignore" if self.include else "-ignorenot"
