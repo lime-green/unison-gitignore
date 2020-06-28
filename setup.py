@@ -17,7 +17,7 @@ setup(
     description="A unison wrapper to integrate with .gitignore",
     long_description=long_description,
     author="Josh DM",
-    url="https://github.com/lime-green/unison_gitignore",
+    url="https://github.com/lime-green/unison-gitignore",
     package_dir = {"": "src"},
     packages=find_packages(),
     entry_points = {
