@@ -21,7 +21,9 @@ class GitIgnoreToUnisonIgnore:
             self.anchor_path = self.anchor_path[1:]
 
     def parse_gitignore(self, gitignore):
-        spec = pathspec.PathSpec.from_lines(LazyCompiledGitWildMatch, gitignore)
+        spec = pathspec.PathSpec.from_lines(
+            LazyCompiledGitWildMatch, gitignore.readlines()
+        )
         return [
             UnisonPathIgnore.from_pattern(self.anchor_path, pattern)
             for pattern in spec.patterns

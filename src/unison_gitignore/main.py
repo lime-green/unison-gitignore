@@ -18,9 +18,9 @@ def main(cmd=None, cwd=None):
         cwd = os.getcwd()
 
     unison_ignores = []
-    cmd_orig = cmd[1:]
+    cmd_args = cmd[1:]
 
-    for abs_path, path in collect_paths_from_cmd(cmd_orig, cwd):
+    for abs_path, path in collect_paths_from_cmd(cmd_args, cwd):
         for gitignore_root, gitignore in collect_gitignores_from_path(abs_path):
             gitignore_anchor = os.path.relpath(gitignore_root, abs_path)
             if gitignore_anchor == ".":
@@ -33,5 +33,5 @@ def main(cmd=None, cwd=None):
     logger.info(
         f"Adding {len(unison_ignores)} ignore patterns based on .gitignore contents"
     )
-    cmd_new = build_cmd(cmd_orig, unison_ignores)
+    cmd_new = build_cmd(cmd_args, unison_ignores)
     run_cmd(cmd_new)
