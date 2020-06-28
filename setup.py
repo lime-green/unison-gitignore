@@ -13,6 +13,8 @@ else:
 setup(
     name="unison-gitignore",
     install_requires=["pathspec"],
+    use_scm_version=True,
+    setup_requires=["setuptools_scm"],
     description="A unison wrapper to integrate with .gitignore",
     long_description=long_description,
     author="Josh DM",
