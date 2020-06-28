@@ -12,7 +12,6 @@ else:
 
 setup(
     name="unison-gitignore",
-    version="0.0.1",
     install_requires=["pathspec"],
     description="A unison wrapper to integrate with .gitignore",
     long_description=long_description,
