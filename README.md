@@ -1,11 +1,17 @@
 ## Unison Gitignore
+[![PyPI version](https://badge.fury.io/py/unison-gitignore.svg)](https://badge.fury.io/py/unison-gitignore)
 
 A gitignore-aware wrapper around [Unison](https://github.com/bcpierce00/unison)
 
-`unison_gitignore` will walk the local root and any supplied paths and then call
+`unison_gitignore` will walk the local root and any supplied paths finding gitignore files and then call
 `unison` with the appropriate unison ignore patterns
 
 ## Usage
+First install it:
+```bash
+pip install unison-gitignore
+```
+
 ```bash
 unison_gitignore /home/john_doe/local_root ssh://remote_root/ -path data
 ```

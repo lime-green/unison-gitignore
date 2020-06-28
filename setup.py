@@ -21,7 +21,7 @@ setup(
     author="Josh DM",
     url="https://github.com/lime-green/unison-gitignore",
     package_dir={"": "src"},
-    packages=find_packages(exclude=["tests.*", "tests"]),
+    packages=find_packages(where="src"),
     entry_points={
         "console_scripts": [
             "unison_gitignore = unison_gitignore.__main__:main",
