@@ -16,6 +16,11 @@ def test_root_path_removes_slash():
     assert parsed[0].anchor_path == ""
 
 
+def test_can_array_of_strings():
+    parsed = GitIgnoreToUnisonIgnore("/").parse_gitignore(["test1.py", "test2.py"])
+    assert len(parsed) == 2
+
+
 def test_keeps_trailing_slash_but_removes_leading_slash():
     parsed = GitIgnoreToUnisonIgnore("/a/b/c/").parse_gitignore(StringIO("test.py"))
     assert len(parsed) == 1
