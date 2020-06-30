@@ -40,9 +40,14 @@ def mock_run_cmd():
 
 @pytest.fixture
 def mock_files():
+    # Python 3.6 `mock_open` doesn't seem to work properly
+    def mock_iter():
+        yield from mock_gitignore_as_array
+
     with mock.patch(
         "builtins.open", mock.mock_open(read_data=mock_gitignore_contents)
     ) as mock_file:
+        mock_file.return_value.__iter__.side_effect = mock_iter
         yield mock_file
 
 
