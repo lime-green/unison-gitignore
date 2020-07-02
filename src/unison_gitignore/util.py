@@ -24,16 +24,41 @@ def _is_ssh_root(root):
     return root.startswith("ssh://")
 
 
-def collect_paths_from_cmd(cmd, cwd):
+def collect_paths_from_cmd(cmd):
+    local_root = get_local_root_from_cmd(cmd)
+    has_path = False
+
+    for i, token in enumerate(cmd):
+        if token == "-path" and i < len(cmd):
+            has_path = True
+            path = cmd[i + 1]
+            abs_path = os.path.join(local_root, path)
+            yield abs_path, path
+
+    if not has_path:
+        yield local_root, ""
+
+
+def get_local_root_from_cmd(cmd):
+    # Assumes `should_parse_cmd` has been run
+    roots = cmd[0:2]
+
+    if _is_ssh_root(roots[0]):
+        return roots[1]
+    else:
+        return roots[0]
+
+
+def should_parse_cmd(cmd):
     if len(cmd) < 2:
-        return
+        return False
 
     if cmd[1].startswith("-"):
         # In the case of running using a profile
         logger.warning(
             "No .gitignore patterns will be added since a unison profile was given"
         )
-        return
+        return False
 
     roots = cmd[0:2]
     if not _is_ssh_root(roots[0]) and not _is_ssh_root(roots[1]):
@@ -43,24 +68,9 @@ def collect_paths_from_cmd(cmd, cwd):
         logger.warning(
             "No .gitignore patterns will be added since no remote roots were given"
         )
-        return
+        return False
 
-    if _is_ssh_root(roots[0]):
-        _, local_root = roots
-    else:
-        local_root, _ = roots
-
-    has_path = False
-    for i, token in enumerate(cmd):
-        if token == "-path" and i < len(cmd):
-            has_path = True
-            path = cmd[i + 1]
-            abs_path = os.path.join(cwd, local_root, path)
-            yield abs_path, path
-
-    if not has_path:
-        abs_path = os.path.join(cwd, local_root)
-        yield abs_path, ""
+    return True
 
 
 def collect_gitignores_from_path(path):
