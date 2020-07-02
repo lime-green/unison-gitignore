@@ -18,11 +18,6 @@ def cmd():
 
 
 @pytest.fixture
-def cwd():
-    return "/home/john_doe"
-
-
-@pytest.fixture
 def mock_collect_gitignores():
     def generator(abs_path):
         yield f"{abs_path}/stuff/data", f"{abs_path}/stuff/data/.gitignore"
@@ -59,21 +54,21 @@ mock_gitignore_contents = "\n".join(mock_gitignore_as_array)
 
 
 @pytest.mark.usefixtures("mock_collect_gitignores", "mock_files")
-def test_calls_run_cmd(cmd, cwd, mock_run_cmd):
-    main(cmd, cwd)
+def test_calls_run_cmd(cmd, mock_run_cmd):
+    main(cmd)
     mock_run_cmd.assert_called_once()
 
 
-def test_no_args_calls_run_cmd(cwd, mock_run_cmd):
-    main(["unison_gitignore"], cwd)
+def test_no_args_calls_run_cmd(mock_run_cmd):
+    main(["unison_gitignore"])
     mock_run_cmd.assert_called_once()
     args = mock_run_cmd.call_args[0][0]
     assert args == ["unison"]
 
 
 @pytest.mark.usefixtures("mock_collect_gitignores", "mock_files")
-def test_calls_run_cmd_with_regex_patterns(cmd, cwd, mock_run_cmd):
-    main(cmd, cwd)
+def test_calls_run_cmd_with_regex_patterns(cmd, mock_run_cmd):
+    main(cmd)
     args = mock_run_cmd.call_args[0][0]
     assert args[0] == "unison"
     assert args[1:7] == cmd[1:7]
@@ -93,8 +88,8 @@ def test_calls_run_cmd_with_regex_patterns(cmd, cwd, mock_run_cmd):
         ["unison_gitignore", "my_profile", "-path", "path"],
     ],
 )
-def test_does_not_add_patterns_when_unable_to(cmd, cwd, mock_run_cmd):
-    main(cmd, cwd)
+def test_does_not_add_patterns_when_unable_to(cmd, mock_run_cmd):
+    main(cmd)
     mock_run_cmd.assert_called_once()
     args = mock_run_cmd.call_args[0][0]
     assert args[0] == "unison"
@@ -103,9 +98,9 @@ def test_does_not_add_patterns_when_unable_to(cmd, cwd, mock_run_cmd):
 
 
 @pytest.mark.usefixtures("mock_collect_gitignores", "mock_files")
-def test_when_no_path_given_it_uses_local_root(cwd, mock_run_cmd):
+def test_when_no_path_given_it_uses_local_root(mock_run_cmd):
     cmd = ["unison_gitignore", "/home/john_doe", "ssh://remote/john_doe_data"]
-    main(cmd, cwd)
+    main(cmd)
     mock_run_cmd.assert_called_once()
     args = mock_run_cmd.call_args[0][0]
     assert args[0] == "unison"
@@ -115,16 +110,16 @@ def test_when_no_path_given_it_uses_local_root(cwd, mock_run_cmd):
 
 
 @pytest.mark.usefixtures("mock_files")
-def test_gitignore_in_root(cmd, cwd, mock_run_cmd):
+def test_gitignore_in_root(cmd, mock_run_cmd):
     def generator(abs_path):
         yield f"{abs_path}", f"{abs_path}.gitignore"
 
     with mock.patch("unison_gitignore.main.collect_gitignores_from_path") as m:
         m.side_effect = generator
-        main(cmd, cwd)
+        main(cmd)
     mock_run_cmd.assert_called_once()
     args = mock_run_cmd.call_args[0][0]
     assert args[0] == "unison"
     assert args[1:7] == cmd[1:7]
     assert len(args) == 8
-    assert args[7] == "-ignore=Regex ^(.+/)?[^/]*\\.py[co](/.*)?$"
+    assert args[7] == "-ignore=Regex ^path1/(.+/)?[^/]*\\.py[co](/.*)?$"
