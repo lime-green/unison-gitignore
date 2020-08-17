@@ -106,7 +106,7 @@ def test_when_no_path_given_it_uses_local_root(mock_run_cmd):
     assert args[0] == "unison"
     assert args[1:3] == cmd[1:3]
     assert len(args) == 4
-    assert args[3] == "-ignore=Regex ^stuff/data/(.+/)?[^/]*\\.py[co](/.*)?$"
+    assert args[3] == r"-ignore=Regex ^stuff/data/(.+/)?[^/]*\\.py[co](/.*)?$"
 
 
 @pytest.mark.usefixtures("mock_files")
@@ -122,4 +122,4 @@ def test_gitignore_in_root(cmd, mock_run_cmd):
     assert args[0] == "unison"
     assert args[1:7] == cmd[1:7]
     assert len(args) == 8
-    assert args[7] == "-ignore=Regex ^path1/(.+/)?[^/]*\\.py[co](/.*)?$"
+    assert args[7] == r"-ignore=Regex ^path1/(.+/)?[^/]*\\.py[co](/.*)?$"

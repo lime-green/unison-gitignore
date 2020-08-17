@@ -104,4 +104,5 @@ class UnisonPathIgnore:
 
     def __str__(self):
         s = "-ignore" if self.include else "-ignorenot"
-        return f"{s}=Regex {self.regex}"
+        escaped_regex = self.regex.replace("\\.", "\\\\.")
+        return f"{s}=Regex {escaped_regex}"
