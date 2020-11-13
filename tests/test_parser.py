@@ -10,10 +10,10 @@ def mock_path():
     return "/home/john_doe"
 
 
-def test_escapes_backslash():
-    parsed = GitIgnoreToUnisonIgnore("/").parse_gitignore(StringIO("*.log"))
+def test_special_characters():
+    parsed = GitIgnoreToUnisonIgnore("/").parse_gitignore(StringIO("~-*"))
     assert len(parsed) == 1
-    assert str(parsed[0]) == r"-ignore=Regex ^(.+/)?[^/]*\\.log(/.*)?$"
+    assert str(parsed[0]) == r"-ignore=Regex ^(.+/)?~-[^/]*(/.*)?$"
 
 
 def test_root_path_removes_slash():
@@ -54,8 +54,8 @@ def test_wildcard_and_negation_regex(mock_path):
     """
     parsed = GitIgnoreToUnisonIgnore(mock_path).parse_gitignore(StringIO(contents))
     assert len(parsed) == 2
-    assert str(parsed[0]) == r"-ignore=Regex ^home/john_doe/(.+/)?[^/]*\\.py[co](/.*)?$"
-    assert str(parsed[1]) == r"-ignorenot=Regex ^home/john_doe/(.+/)?test\\.pyc$"
+    assert str(parsed[0]) == r"-ignore=Regex ^home/john_doe/(.+/)?[^/]*\.py[co](/.*)?$"
+    assert str(parsed[1]) == r"-ignorenot=Regex ^home/john_doe/(.+/)?test\.pyc$"
 
 
 def test_directories_regex(mock_path):
