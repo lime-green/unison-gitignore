@@ -22,7 +22,7 @@ def test_root_path_removes_slash():
     assert parsed[0].anchor_path == ""
 
 
-def test_escaped_hash():
+def test_hash_should_not_be_escaped():
     parsed = GitIgnoreToUnisonIgnore(".#*").parse_gitignore(StringIO(".#file"))
     assert len(parsed) == 1
     assert str(parsed[0]) == r"-ignore=Regex ^.#*/(.+/)?\.#file(/.*)?$"
