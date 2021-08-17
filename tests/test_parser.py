@@ -28,6 +28,12 @@ def test_hash_should_not_be_escaped():
     assert str(parsed[0]) == r"-ignore=Regex ^.#*/(.+/)?\.#file(/.*)?$"
 
 
+def test_space_should_not_be_escaped():
+    parsed = GitIgnoreToUnisonIgnore("/").parse_gitignore(StringIO("Hello World"))
+    assert len(parsed) == 1
+    assert str(parsed[0]) == r"-ignore=Regex ^(.+/)?Hello World(/.*)?$"
+
+
 def test_accepts_array_of_strings():
     parsed = GitIgnoreToUnisonIgnore("/").parse_gitignore(["test1.py", "test2.py"])
     assert len(parsed) == 2
