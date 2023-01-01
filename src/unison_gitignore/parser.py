@@ -109,5 +109,6 @@ class UnisonPathIgnore:
             .replace("\\-", "-")
             .replace("\\#", "#")
             .replace("\\ ", " ")
+            .replace("(?P<ps_d>/)", "/")
         )
         return f"{s}=Regex {escaped_regex}"
